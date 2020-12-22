@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.ssm.dao.store.OrdersDao">
+    <!--配置一对多的封装-->
+    <resultMap id="ordersMap" type="com.itheima.ssm.domain.Orders">
+        <id column="id" property="id"/>
+        <result column="orderNum" property="orderNum"/>
+        <result column="orderTime" property="orderTime"/>
+        <result column="peopleCount" property="peopleCount"/>
+        <result column="orderDesc" property="orderDesc"/>
+        <result column="payType" property="payType"/>
+        <result column="orderStatus" property="orderStatus"/>
+        <association column="productId" property="product"
+                     javaType="com.itheima.ssm.domain.Product"
+                     select="com.itheima.ssm.dao.store.ProductDao.findById">
+        </association>
+        <association column="memberId" property="member"
+                     javaType="com.itheima.ssm.domain.Member"
+                     select="com.itheima.ssm.dao.store.MemberDao.findById">
+        </association>
+        <collection column="id"
+                    property="travellers"
+                    ofType="com.itheima.ssm.domain.Traveller"
+                    select="com.itheima.ssm.dao.store.TravellerDao.findByOrdersId">
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,orderNum,orderTime,peopleCount,orderDesc,payType,orderStatus,productId,memberId
+    </sql>
+    <!--分页查询-->
+    <select id="findAll" resultMap="ordersMap">
+        select
+        <include refid="Base_Column_List"/>
+        from orders
+    </select>
+
+    <!--根据id查询-->
+    <select id="findById" resultMap="ordersMap">
+        select
+        <include refid="Base_Column_List"/>
+        from orders where id = #{id}
+    </select>
+</mapper>

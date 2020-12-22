@@ -1,0 +1,31 @@
+# no .a files  以.a结尾的所有文件被忽略
+
+# *.a
+
+# but do track lib.a, even though you're ignoring .a files above
+
+# lib.a会被版本控制，是在上面配置的基础上排除lib.a的忽略
+
+# !lib.a
+
+# only ignore the TODO file in the current directory, not subdir/TODO
+
+# 忽略当前目录下的TODO文件，并不是TODO子目录
+
+# /TODO
+
+# ignore all files in the build/ directory  忽略所有的build子目录下的资源，包含该目录本身
+
+# build/
+
+# ignore doc/notes.txt, but not doc/server/arch.txt  忽略doc目录下的所有以.txt结尾的直接子文件，但是不回忽略子目录中的txt文件
+
+# doc/*.txt
+
+# ignore all .pdf files in the doc/ directory 忽略doc目录下的所有pdf文件，包含子目录中的也忽略
+
+# doc/**/*.pdf
+
+.idea/
+*.iml
+ssm/target/

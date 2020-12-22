@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.ssm.dao.system.PermissionDao">
+
+    <!--添加权限信息-->
+    <insert id="save" parameterType="permission">
+        insert into
+            permission(id, permissionName, url)
+        VALUES
+            (#{id},#{permissionName},#{url})
+    </insert>
+
+    <!--查询全部的权限信息-->
+    <select id="findAll" resultType="permission">
+        select * from permission
+    </select>
+
+    <!--根据RoleId查询用户的角色的权限信息-->
+    <select id="findByRoleId" resultType="permission">
+        select p.* from role_permission rp,permission p where rp.permissionId=p.id and rp.roleId = #{id}
+    </select>
+
+</mapper>

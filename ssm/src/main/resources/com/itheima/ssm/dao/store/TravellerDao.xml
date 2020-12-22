@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.ssm.dao.store.TravellerDao">
+    <select id="findByOrdersId" resultType="traveller">
+        select t.* from order_traveller ot ,traveller t where ot.orderId=#{id} and ot.travellerId=t.id
+    </select>
+</mapper>

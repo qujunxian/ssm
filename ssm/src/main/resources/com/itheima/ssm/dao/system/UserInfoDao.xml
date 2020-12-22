@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.ssm.dao.system.UserInfoDao">
+    <!--配置用户信息-->
+    <resultMap id="userMap" type="com.itheima.ssm.domain.UserInfo">
+        <id column="id" property="id"/>
+        <result column="email" property="email"/>
+        <result column="username" property="username"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="phoneNUm" property="phoneNum"/>
+        <result column="STATUS" property="status"/>
+        <!--多对多的查询（两个一对多）-->
+        <collection column="id"
+                    property="roles"
+                    ofType="com.itheima.ssm.domain.Role"
+                    select="com.itheima.ssm.dao.system.RoleDao.findByUserID">
+        </collection>
+    </resultMap>
+
+    <!--抽取公共的sql字段-->
+    <sql id="Base_Column_List">
+        id,email,username,PASSWORD,phoneNUm,STATUS
+    </sql>
+
+    <!--添加用户-->
+    <insert id="save" parameterType="userInfo">
+        insert into
+            users(id, email, username, PASSWORD, phoneNum, STATUS)
+        VALUES
+            (#{id},#{email},#{username},#{password},#{phoneNum},#{status})
+    </insert>
+
+    <!--查询全部用户信息-->
+    <select id="findAll" resultType="userInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from users
+    </select>
+
+    <!--根据id查询-->
+    <select id="findById" resultMap="userMap">
+        select
+        <include refid="Base_Column_List"/>
+        from users where id=#{id}
+    </select>
+
+    <!--根据用户名和密码查询用户信息 用来登录操作 -->
+    <select id="findByUsernameAndPassword" resultType="userInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from users
+        where username=#{username} and PASSWORD = #{password}
+    </select>
+
+    <!--关于用户的角色的操作-->
+    <!--删除用户的角色-->
+    <delete id="deleteRoles">
+        delete from users_role where userId = #{userId}
+    </delete>
+
+    <!--添加用户的角色-->
+    <insert id="saveRoles">
+        insert  into users_role(userId, roleId) VALUES (#{userId},#{roleId})
+    </insert>
+
+</mapper>
